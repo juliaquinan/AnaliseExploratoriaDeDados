@@ -22,6 +22,7 @@ Fonte: World Hapiness Report Website
 
 **imagens estáticas ("prints" de tela, imagens da internet - com a devida fonte mencionada - ou figuras criadas pelo aluno fora do ambiente do R); imagens geradas através do ambiente R, particularmente com a biblioteca ggplot; links clicáveis (como fontes e referências). **
 
+
 ## BASE DE DADOS
 
 **2 - Escolha uma base de dados para realizar esse projeto. Essa base de dados será utilizada durante toda sua análise. Essa base necessita ter 4 (ou mais) variáveis de interesse, onde todas são numéricas (confira com o professor a possibilidade de utilização de dados categóricos). Observe que é importante que haja dados faltantes em pelo menos uma variável para executar esse projeto. Caso você tenha dificuldade para escolher uma base, o professor da disciplina irá designar para você. Explique qual o motivo para a escolha dessa base e aponte os resultados esperados através da análise.**
@@ -53,6 +54,7 @@ names(world_happiness.data.table)
 world_happiness.data.table.br <- world_happiness.data.table[Country_name == "Brazil"]
 ```
 
+
 ## DESCREVENDO ESTATISTICAMENTE
 
 **3 - Utilizando o pacote summarytools (função descr), descreva estatisticamente a sua base de dados.**
@@ -61,6 +63,7 @@ world_happiness.data.table.br <- world_happiness.data.table[Country_name == "Bra
 library(summarytools)
 world_happiness.data.table.br %>% summarytools::descr()
 ```
+
 
 ## MATRIZ DE ESPALHAMENTO E CORRELAÇÕES
 
@@ -124,18 +127,23 @@ sr <- function(x) {
 library(ggplot2)
 world_happiness.data.table.br %>% dplyr::select(Life_Ladder) %>% ggplot(aes(x=Life_Ladder))+geom_histogram(aes(y = after_stat(density)) , binwidth=sr, fill = 'lightblue') + xlab('Life Ladder') + ylab('Densidade de Frequência') + labs(title = "DISTRIBUIÇÃO DA VARIÁVEL ÍNDICE DA FELICIDADE POR HISTOGRAMA", subtitle = "Binarização pela Regra de Sturge") + geom_vline(xintercept=c(median(world_happiness.data.table.br$Life_Ladder), mean(world_happiness.data.table.br$Life_Ladder))) + annotate("text", x=median(world_happiness.data.table.br$Life_Ladder) + 0.3, y=0.05, label="Mediana", angle=90) + annotate("text", x=mean(world_happiness.data.table.br$Life_Ladder) + 0.3, y=0.05, label="Média", angle=90) + geom_density(linetype = 2) + theme_classic()
 ```
+
 ```{r histograma RENDA PER CAPITA, echo = TRUE, out.width = '40%'}
 world_happiness.data.table.br %>% dplyr::select(Log_GDP_per_capita) %>% ggplot(aes(x=Log_GDP_per_capita))+geom_histogram(aes(y = after_stat(density)) , binwidth=sr, fill = 'lightblue') + xlab('Log GDP per capita') + ylab('Densidade de Frequência') + labs(title = "DISTRIBUIÇÃO DA VARIÁVEL RENDA PER CAPITA POR HISTOGRAMA", subtitle = "Binarização pela Regra de Sturge") + geom_vline(xintercept=c(median(world_happiness.data.table.br$Log_GDP_per_capita), mean(world_happiness.data.table.br$Log_GDP_per_capita))) + annotate("text", x=median(world_happiness.data.table.br$Log_GDP_per_capita) + 0.3, y=0.05, label="Mediana", angle=90) + annotate("text", x=mean(world_happiness.data.table.br$Log_GDP_per_capita) + 0.3, y=0.05, label="Média", angle=90) + geom_density(linetype = 2) + theme_classic()
 ```
+
 ```{r histograma SUPORTE SOCIAL, echo = TRUE, out.width = '40%'}
 world_happiness.data.table.br %>% dplyr::select(Social_support) %>% ggplot(aes(x=Social_support))+geom_histogram(aes(y = after_stat(density)) , binwidth=fd, fill = 'lightblue') + xlab('Social Support') + ylab('Densidade de Frequência') + labs(title = "DISTRIBUIÇÃO DA VARIÁVEL SUPORTE SOCIAL POR HISTOGRAMA", subtitle = "Binarização pela Regra de Freedman-Diaconis") + geom_vline(xintercept=c(median(world_happiness.data.table.br$Social_support), mean(world_happiness.data.table.br$Social_support))) + annotate("text", x=median(world_happiness.data.table.br$Social_support) + 0.3, y=0.05, label="Mediana", angle=90) + annotate("text", x=mean(world_happiness.data.table.br$Social_support) + 0.3, y=0.05, label="Média", angle=90) + geom_density(linetype = 2) + theme_classic()
 ```
+
 ```{r histograma LIBERDADE PARA TOMAR DECISÕES, echo = TRUE, out.width = '40%'}
 world_happiness.data.table.br %>% dplyr::select(Freedom_to_make_life_choices) %>% ggplot(aes(x=Freedom_to_make_life_choices))+geom_histogram(aes(y = after_stat(density)) , binwidth=sr, fill = 'lightblue') + xlab('Freedom to Make Life Choices') + ylab('Densidade de Frequência') + labs(title = "DISTRIBUIÇÃO DA VARIÁVEL LIBERDADE PARA TOMAR DECISÕES POR HISTOGRAMA", subtitle = "Binarização pela Regra de Sturge") + geom_vline(xintercept=c(median(world_happiness.data.table.br$Freedom_to_make_life_choices), mean(world_happiness.data.table.br$Freedom_to_make_life_choices))) + annotate("text", x=median(world_happiness.data.table.br$Freedom_to_make_life_choices) + 0.3, y=0.05, label="Mediana", angle=90) + annotate("text", x=mean(world_happiness.data.table.br$Freedom_to_make_life_choices) + 0.3, y=0.05, label="Média", angle=90) + geom_density(linetype = 2) + theme_classic()
 ```
+
 ```{r histograma PERCEPÇÕES DE CORRUPÇÃO, echo = TRUE, out.width = '40%'}
 world_happiness.data.table.br %>% dplyr::select(Perceptions_of_corruption) %>% ggplot(aes(x=Perceptions_of_corruption))+geom_histogram(aes(y = after_stat(density)) , binwidth=sr, fill = 'lightblue') + xlab('Perceptions of corruption') + ylab('Densidade de Frequência') + labs(title = "DISTRIBUIÇÃO DA VARIÁVEL PERCEPÇÕES DE CORRUPÇÃO", subtitle = "Binarização pela Regra de Sturge") + geom_vline(xintercept=c(median(world_happiness.data.table.br$Perceptions_of_corruption), mean(world_happiness.data.table.br$Perceptions_of_corruption))) + annotate("text", x=median(world_happiness.data.table.br$Perceptions_of_corruption) + 0.3, y=0.05, label="Mediana", angle=90) + annotate("text", x=mean(world_happiness.data.table.br$Perceptions_of_corruption) + 0.3, y=0.05, label="Média", angle=90) + geom_density(linetype = 2) + theme_classic()
 ```
+
 ```{r histograma AFETO NEGATIVO, echo = TRUE, out.width = '40%'}
 world_happiness.data.table.br %>% dplyr::select(Negative_affect) %>% ggplot(aes(x=Negative_affect))+geom_histogram(aes(y = after_stat(density)) , binwidth=sr, fill = 'lightblue') + xlab('Negative affect') + ylab('Densidade de Frequência') + labs(title = "DISTRIBUIÇÃO DA VARIÁVEL AFETO NEGATIVO", subtitle = "Binarização pela Regra de Sturge") + geom_vline(xintercept=c(median(world_happiness.data.table.br$Negative_affect), mean(world_happiness.data.table.br$Negative_affect))) + annotate("text", x=median(world_happiness.data.table.br$Negative_affect) + 0.3, y=0.05, label="Mediana", angle=90) + annotate("text", x=mean(world_happiness.data.table.br$Negative_affect) + 0.3, y=0.05, label="Média", angle=90) + geom_density(linetype = 2) + theme_classic()
 ```
@@ -143,6 +151,7 @@ world_happiness.data.table.br %>% dplyr::select(Negative_affect) %>% ggplot(aes(
 ```{r histograma EXPECTATIVA DE VIDA SAUDÁVEL AO NASCER, echo = TRUE, out.width = '40%'}
 world_happiness.data.table.br %>% dplyr::select(Healthy_life_expectancy_at_birth) %>% ggplot(aes(x=Healthy_life_expectancy_at_birth))+geom_histogram(aes(y = after_stat(density)) , binwidth=sr, fill = 'lightblue') + xlab('Healthy life expectancy at birth') + ylab('Densidade de Frequência') + labs(title = "DISTRIBUIÇÃO DA VARIÁVEL EXPECTATIVA DE VIDA SAUDÁVEL AO NASCER", subtitle = "Binarização pela Regra de Sturge") + geom_vline(xintercept=c(median(world_happiness.data.table.br$Healthy_life_expectancy_at_birth), mean(world_happiness.data.table.br$Healthy_life_expectancy_at_birth))) + annotate("text", x=median(world_happiness.data.table.br$Healthy_life_expectancy_at_birth) + 0.3, y=0.05, label="Mediana", angle=90) + annotate("text", x=mean(world_happiness.data.table.br$Healthy_life_expectancy_at_birth) + 0.3, y=0.05, label="Média", angle=90) + geom_density(linetype = 2) + theme_classic()
 ```
+
 ```{r histograma GENEROSIDADE, echo = TRUE, out.width = '40%'}
 world_happiness.data.table.br.semna %>% dplyr::select(Generosity) %>% ggplot(aes(x=Generosity))+geom_histogram(aes(y = after_stat(density)) , binwidth=sr, fill = 'lightblue') + xlab('Generosity') + ylab('Densidade de Frequência') + labs(title = "DISTRIBUIÇÃO DA VARIÁVEL GENEROSIDADE", subtitle = "Binarização pela Regra de Sturge") + geom_vline(xintercept=c(median(world_happiness.data.table.br.semna$Generosity), mean(world_happiness.data.table.br.semna$Generosity))) + annotate("text", x=median(world_happiness.data.table.br.semna$Generosity) + 0.3, y=0.05, label="Mediana", angle=90) + annotate("text", x=mean(world_happiness.data.table.br.semna$Generosity) + 0.3, y=0.05, label="Média", angle=90) + geom_density(linetype = 2) + theme_classic()
 ```
@@ -270,6 +279,7 @@ Social support | 100%
 Year | 100%
 
 
+
 ## IMPUTAÇÃO DE DADOS
 
 **8 - Realize uma operação de imputação de dados usando o pacote MICE.**
@@ -278,6 +288,7 @@ Year | 100%
 library(mice)
 imputados = mice(world_happiness.data.table.br, m=5, maxit=10, seed=123)
 ```
+
 
 ## SHINY
 
@@ -291,6 +302,8 @@ imputados = mice(world_happiness.data.table.br, m=5, maxit=10, seed=123)
 [Clique aqui para acessar o dash publicado](https://posit.cloud/content/5806613)
 
 ![](Print_DashShiny2.png)
+
+
 
 ## CÓDIGOS
 
